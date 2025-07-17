@@ -2,8 +2,30 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <footer style={{ padding: '1rem', borderTop: '1px solid #eee', marginTop: '2rem', textAlign: 'center', fontSize: '0.9rem', color: '#888' }}>
-      © 2024 아마추어 수영 커뮤니티. All rights reserved.
+    <footer style={{
+      width: '100%',
+      background: '#f5f5f5',
+      borderTop: '1px solid #e0e0e0',
+      marginTop: '2rem',
+      padding: '2rem 2rem 1rem 2rem',
+      fontSize: '0.95rem',
+      color: '#888',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 8,
+    }}>
+      <div style={{ display: 'flex', gap: 24, marginBottom: 8 }}>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>회사소개</a>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>광고안내</a>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>인스타그램</a>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>유튜브</a>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>페이스북</a>
+        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>틱톡</a>
+      </div>
+      <div style={{ color: '#bbb', fontSize: '0.85rem' }}>
+        © 2024 RXP FLEX. All rights reserved.
+      </div>
     </footer>
   );
 };

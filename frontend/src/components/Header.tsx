@@ -1,13 +1,19 @@
 import React from 'react';
-import { Button } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+
+const mainMenus = [
+  { label: '커뮤니티', to: '/community' },
+  { label: '대회', to: '/competition' },
+  { label: '장비', to: '/gear' },
+  { label: '가이드', to: '/guide' },
+  { label: '기록', to: '/record' },
+  { label: '마이페이지', to: '/mypage' },
+];
 
 const Header: React.FC = () => {
   const { isAuthenticated, logout, token } = useAuth();
   const navigate = useNavigate();
-
-  // 샘플: 토큰이 이메일이라고 가정
   const email = token || '';
 
   const handleLogout = () => {
@@ -16,16 +22,97 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header style={{ padding: '1rem', borderBottom: '1px solid #eee', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <h2 style={{ margin: 0 }}>아마추어 수영 커뮤니티</h2>
-      <div>
+    <header style={{
+      width: '100%',
+      background: '#fff',
+      borderBottom: '1px solid #e0e0e0',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '0 2rem',
+      height: 64,
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+    }}>
+      {/* 좌측 로고 */}
+      <RouterLink to="/" style={{ textDecoration: 'none', color: '#1976d2', fontWeight: 700, fontSize: 24 }}>
+        RXP FLEX
+      </RouterLink>
+      {/* 중앙 메뉴 */}
+      <nav style={{ display: 'flex', gap: 24 }}>
+        {mainMenus.map((menu) => (
+          <RouterLink
+            key={menu.to}
+            to={menu.to}
+            style={{
+              textDecoration: 'none',
+              color: '#222',
+              fontWeight: 500,
+              fontSize: 16,
+              padding: '8px 0',
+              transition: 'color 0.2s',
+            }}
+          >
+            {menu.label}
+          </RouterLink>
+        ))}
+      </nav>
+      {/* 우측 로그인/회원가입 또는 사용자 정보 */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         {isAuthenticated ? (
           <>
-            <span style={{ marginRight: 16 }}>{email}</span>
-            <Button variant="outlined" size="small" onClick={handleLogout}>로그아웃</Button>
+            <span style={{ color: '#1976d2', fontWeight: 500, marginRight: 8 }}>{email}</span>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: 'none',
+                border: '1px solid #1976d2',
+                color: '#1976d2',
+                borderRadius: 4,
+                padding: '6px 16px',
+                cursor: 'pointer',
+                fontWeight: 500,
+                fontSize: 14,
+              }}
+            >
+              로그아웃
+            </button>
           </>
         ) : (
-          <Button component={RouterLink} to="/login" variant="contained" size="small">로그인</Button>
+          <>
+            <RouterLink
+              to="/login"
+              style={{
+                background: '#1976d2',
+                color: '#fff',
+                border: 'none',
+                borderRadius: 4,
+                padding: '6px 16px',
+                fontWeight: 500,
+                fontSize: 14,
+                textDecoration: 'none',
+                marginRight: 8,
+              }}
+            >
+              로그인
+            </RouterLink>
+            <RouterLink
+              to="/register"
+              style={{
+                background: 'none',
+                color: '#1976d2',
+                border: '1px solid #1976d2',
+                borderRadius: 4,
+                padding: '6px 16px',
+                fontWeight: 500,
+                fontSize: 14,
+                textDecoration: 'none',
+              }}
+            >
+              회원가입
+            </RouterLink>
+          </>
         )}
       </div>
     </header>

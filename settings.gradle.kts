@@ -1,2 +1,3 @@
-rootProject.name = "backend"
-// app 모듈 관련 include 제거 
+rootProject.name = "swimming-community"
+
+include("backend")
