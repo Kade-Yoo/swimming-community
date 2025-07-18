@@ -8,4 +8,4 @@ class SwimmingCommunityApplication
 
 fun main(args: Array<String>) {
     runApplication<SwimmingCommunityApplication>(*args)
-} 
+}
