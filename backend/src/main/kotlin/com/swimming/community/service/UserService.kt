@@ -24,7 +24,7 @@ class UserService(
         )
         val saved = userRepository.save(user)
         val token = JwtUtil.generateToken(saved.email)
-        return UserResponse.from(saved, token)
+        return UserResponse(saved, token)
     }
 
     fun login(request: UserLoginRequest): UserResponse {
@@ -34,6 +34,6 @@ class UserService(
             throw InvalidCredentialsException()
         }
         val token = JwtUtil.generateToken(user.email)
-        return UserResponse.from(user, token)
+        return UserResponse(user, token)
     }
 } 

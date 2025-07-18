@@ -1,19 +1,13 @@
 import React from 'react';
-import Header from './Header';
 import Navigation from './Navigation';
-import Footer from './Footer';
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header />
+    <div className="w-full h-full min-h-screen flex flex-col">
       <Navigation />
-      <main style={{ flex: 1, padding: '2rem 0' }}>{children}</main>
-      <Footer />
+      <main className="flex-1 w-full h-full flex flex-col">
+        {children}
+      </main>
     </div>
   );
 };

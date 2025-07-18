@@ -35,6 +35,6 @@ class UserController(
         val token = authHeader.substring(7)
         val email = JwtUtil.getEmail(token) ?: return ResponseEntity.status(401).build()
         val user = userRepository.findByEmail(email) ?: return ResponseEntity.status(404).build()
-        return ResponseEntity.ok(UserResponse.from(user))
+        return ResponseEntity.ok(UserResponse(user))
     }
 } 

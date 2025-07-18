@@ -32,32 +32,34 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{ maxWidth: 400, margin: '0 auto', padding: 32 }}>
-      <h2>로그인</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>이메일</label>
-          <input
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            required
-            style={{ width: '100%', marginBottom: 12 }}
-          />
-        </div>
-        <div>
-          <label>비밀번호</label>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            required
-            style={{ width: '100%', marginBottom: 12 }}
-          />
-        </div>
-        {error && <div style={{ color: 'red', marginBottom: 12 }}>{error}</div>}
-        <button type="submit" style={{ width: '100%' }}>로그인</button>
-      </form>
+    <div className="flex-1 w-full h-full min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="w-full px-4 md:px-8">
+        <h2 className="text-2xl font-bold text-center mb-6">로그인</h2>
+        <form onSubmit={handleLogin} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1">이메일</label>
+            <input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">비밀번호</label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+          {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+          <button type="submit" className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded transition">로그인</button>
+        </form>
+      </div>
     </div>
   );
 };

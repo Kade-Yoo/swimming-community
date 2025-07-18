@@ -19,13 +19,10 @@ data class UserResponse(
     val createdAt: LocalDateTime,
     val token: String? = null
 ) {
-    companion object {
-        fun from(user: User, token: String? = null): UserResponse =
-            UserResponse(
-                id = user.id,
-                email = user.email,
-                createdAt = user.createdAt,
-                token = token
-            )
-    }
-} 
+    constructor(user: User, token: String? = null) : this(
+        id = user.id,
+        email = user.email,
+        createdAt = user.createdAt,
+        token = token
+    )
+}

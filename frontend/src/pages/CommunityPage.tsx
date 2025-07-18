@@ -1,44 +1,35 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { Card, CardContent, Typography, Stack, CircularProgress } from '@mui/material';
 
-interface Post {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
-
-const fetchPosts = async (): Promise<Post[]> => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!res.ok) throw new Error('데이터 불러오기 실패');
-  return res.json();
-};
+const posts = [
+  { id: 1, title: '오늘 수영 연습 어땠나요?', author: 'user1', date: '2024-07-18', comment: 3 },
+  { id: 2, title: '스타트가 너무 아찔해요--.', author: 'user2', date: '2024-07-17', comment: 5 },
+  { id: 3, title: '수영적 실체를 얻어졌습니다', author: 'user3', date: '2024-07-16', comment: 2 },
+  { id: 4, title: '땡의 뒷차기 오일탑 황워드집니다', author: 'user4', date: '2024-07-15', comment: 0 },
+];
 
 const CommunityPage: React.FC = () => {
-  const { data, isLoading, error } = useQuery<Post[]>({
-    queryKey: ['posts'],
-    queryFn: fetchPosts,
-  });
-
-  if (isLoading) return <Stack alignItems="center" mt={6}><CircularProgress /></Stack>;
-  if (error) return <Typography color="error">게시글을 불러올 수 없습니다.</Typography>;
-
   return (
-    <Stack spacing={2}>
-      <Typography variant="h5" gutterBottom>커뮤니티 게시판 (샘플)</Typography>
-      {data?.slice(0, 10).map(post => (
-        <Card key={post.id}>
-          <CardContent>
-            <Typography variant="h6">{post.title}</Typography>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              작성자: User {post.userId}
-            </Typography>
-            <Typography variant="body1">{post.body.slice(0, 60)}...</Typography>
-          </CardContent>
-        </Card>
-      ))}
-    </Stack>
+    <div className="flex-1 w-full h-full bg-gray-50 py-10">
+      <div className="w-full px-4 md:px-8">
+        <h1 className="text-3xl font-bold mb-8 text-center">커뮤니티</h1>
+        <div className="bg-white rounded-xl shadow divide-y">
+          {posts.map(post => (
+            <div key={post.id} className="flex items-center px-6 py-4 gap-4 hover:bg-gray-50 transition">
+              <div className="flex-1">
+                <div className="text-lg font-semibold text-gray-900">{post.title}</div>
+                <div className="text-xs text-gray-500 mt-1">{post.author} · {post.date}</div>
+              </div>
+              {post.comment > 0 && (
+                <span className="ml-2 text-xs text-red-500 font-bold">[{post.comment}]</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-end mt-6">
+          <button className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded shadow">글쓰기</button>
+        </div>
+      </div>
+    </div>
   );
 };
 
