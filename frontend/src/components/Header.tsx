@@ -36,8 +36,8 @@ const Header: React.FC = () => {
       zIndex: 100,
     }}>
       {/* 좌측 로고 */}
-      <RouterLink to="/" style={{ textDecoration: 'none', color: '#1976d2', fontWeight: 700, fontSize: 24 }}>
-        RXP FLEX
+      <RouterLink to="/" className="logo text-2xl font-extrabold text-blue-600 font-sans tracking-wide flex items-center" style={{ textDecoration: 'none' }} aria-label="SWIMMERGY 홈">
+        SWIM<span className="wave-m">M</span><span className="wave-e">E</span>RGY
       </RouterLink>
       {/* 중앙 메뉴 */}
       <nav style={{ display: 'flex', gap: 24 }}>

@@ -16,15 +16,10 @@ const Footer: React.FC = () => {
       gap: 8,
     }}>
       <div style={{ display: 'flex', gap: 24, marginBottom: 8 }}>
-        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>회사소개</a>
         <a href="#" style={{ color: '#888', textDecoration: 'none' }}>광고안내</a>
-        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>인스타그램</a>
-        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>유튜브</a>
-        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>페이스북</a>
-        <a href="#" style={{ color: '#888', textDecoration: 'none' }}>틱톡</a>
       </div>
       <div style={{ color: '#bbb', fontSize: '0.85rem' }}>
-        © 2024 RXP FLEX. All rights reserved.
+        © 2025 SWIMMERGY. All rights reserved.
       </div>
     </footer>
   );

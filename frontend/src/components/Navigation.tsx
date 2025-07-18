@@ -16,7 +16,7 @@ const Navigation: React.FC = () => {
     <nav className="w-full bg-white border-b border-gray-200 px-4 md:px-12 py-2 flex items-center justify-between sticky top-0 z-50">
       {/* 로고 */}
       <div className="font-extrabold text-xl md:text-2xl tracking-tight text-blue-600">
-        <Link to="/">RXP FLEX</Link>
+        <Link to="/">SWIM<span className="wave-m">M</span><span className="wave-e">E</span>RGY</Link>
       </div>
       {/* 메뉴 */}
       <div className="hidden md:flex gap-7 text-base font-medium text-gray-800">
