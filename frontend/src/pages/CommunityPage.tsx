@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import CommunityPostCard from '../components/CommunityPostCard';
 import CommunityPostModal from '../components/CommunityPostModal';
 import ReportModal from '../components/ReportModal';
 import WritePostModal from '../components/WritePostModal';
 import Snackbar from '../components/PostCard';
 import PostForm from '../components/PostForm';
+import PostCard from '../components/PostCard';
 import { getPosts, createPost, createComment, likePost, reportPost } from '../utils/api';
 
 const communityPosts = [
@@ -90,6 +91,9 @@ const CommunityPage: React.FC = () => {
   const writeTitleRef = useRef<HTMLInputElement | null>(null);
   const commentAuthorRef = useRef<HTMLInputElement | null>(null);
   const reportTextareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [showPostForm, setShowPostForm] = useState(false);
+  const [posts, setPosts] = useState(communityPosts);
 
   // 모달 바깥 클릭/ESC 닫기, 스크롤 잠금
   const modalBgRef = useRef<HTMLDivElement | null>(null);
@@ -138,7 +142,7 @@ const CommunityPage: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     getPosts()
-      .then(data => setPosts(data.length ? data : initialPosts)) // 실제 API 없으므로 더미 데이터 fallback
+      .then(data => setPosts(data.length ? data : communityPosts)) // 실제 API 없으므로 더미 데이터 fallback
       .finally(() => setLoading(false));
   }, []);
 
@@ -172,7 +176,7 @@ const CommunityPage: React.FC = () => {
     }
     setFormError('');
     setLoading(true);
-    createPost({ title: form.title, author: form.author, content: form.content })
+    createPost({ title: form.title, author: form.author, content: form.content , category: '', views: 0})
       .then(newPost => {
         setPosts([newPost, ...posts]);
         setIsWriteOpen(false);
@@ -203,18 +207,13 @@ const CommunityPage: React.FC = () => {
           if (post.id === selectedPost.id) {
             return {
               ...post,
-              comments: [...(post.comments || []), newComment],
-              comment: (post.comment || 0) + 1,
+              comments: [, newComment],
             };
           }
           return post;
         });
-        setPosts(updatedPosts);
-        setSelectedPost(prev => prev ? {
-          ...prev,
-          comments: [...(prev.comments || []), newComment],
-          comment: (prev.comment || 0) + 1,
-        } : null);
+        setPosts([]);
+        setSelectedPost(null);
         setCommentForm({ author: '', content: '' });
         showSnackbar('댓글이 등록되었습니다!');
       })
@@ -253,63 +252,21 @@ const CommunityPage: React.FC = () => {
       .finally(() => setLoading(false));
   };
 
-  // 검색 필터링
-  const filteredPosts = posts.filter(
+  // 검색 필터링 (useMemo로 최적화)
+  const filteredPosts = useMemo(() => posts.filter(
     p =>
       p.title.toLowerCase().includes(search.toLowerCase()) ||
       p.content.toLowerCase().includes(search.toLowerCase()) ||
       p.author.toLowerCase().includes(search.toLowerCase())
-  );
+  ), [posts, search]);
 
-  // 정렬
-  const sortedPosts = [...filteredPosts].sort((a, b) => {
-    if (sort === 'latest') return b.date.localeCompare(a.date);
-    if (sort === 'likes') return (b.likes || 0) - (a.likes || 0);
-    if (sort === 'comments') return (b.comment || 0) - (a.comment || 0);
-    return 0;
-  });
-
-  // 페이지네이션
-  const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE) || 1;
-
-  // 무한 스크롤: visiblePosts 관리
-  useEffect(() => {
-    setVisiblePosts(sortedPosts.slice(0, PAGE_SIZE * page));
-  }, [sortedPosts, page]);
 
   // 검색/정렬 변경 시 1페이지로 초기화
   useEffect(() => {
     setPage(1);
   }, [search, sort]);
 
-  // Intersection Observer로 마지막 요소 감지
-  const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
-    const target = entries[0];
-    if (target.isIntersecting && page < totalPages) {
-      setPage(prev => prev + 1);
-    }
-  }, [page, totalPages]);
-
-  useEffect(() => {
-    const option = { root: null, rootMargin: '20px', threshold: 1.0 };
-    const observer = new window.IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-    return () => { if (loader.current) observer.unobserve(loader.current); };
-  }, [handleObserver]);
-
-  
-
-
-  const [selectedCategory, setSelectedCategory] = useState('전체');
-  const [showPostForm, setShowPostForm] = useState(false);
-  const [posts, setPosts] = useState(communityPosts);
-
   const categories = ['전체', '일반', '질문', '기술', '정보', '후기'];
-
-  const filteredPosts = selectedCategory === '전체' 
-    ? posts 
-    : posts.filter(post => post.category === selectedCategory);
-
   const handleAddPost = (newPost: any) => {
     const post = {
       id: posts.length + 1,

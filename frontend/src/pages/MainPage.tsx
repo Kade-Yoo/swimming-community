@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../components/Header';
 import SlideBox from '../components/SlideBox';
 import ReviewPhotos from '../components/ReviewPhotos';
 import PopularPosts from '../components/PopularPosts';

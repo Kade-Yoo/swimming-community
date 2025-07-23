@@ -5,10 +5,11 @@ export interface Post {
   title: string;
   author: string;
   date: string;
-  comment: number;
+  comments: number;
   likes: number;
   content: string;
-  comments: Comment[];
+  category: string;
+  views: number;
 }
 
 export interface Comment {
@@ -25,14 +26,13 @@ export async function getPosts(): Promise<Post[]> {
 }
 
 // 게시글 등록
-export async function createPost(data: Omit<Post, 'id' | 'date' | 'comment' | 'likes' | 'comments'>): Promise<Post> {
+export async function createPost(data: Omit<Post, 'id' | 'date' | 'likes' | 'comments'>): Promise<Post> {
   // 실제 구현 시 fetch('/api/posts', { method: 'POST', body: ... })
   return Promise.resolve({
     id: Date.now(),
     date: new Date().toISOString().slice(0, 10),
-    comment: 0,
     likes: 0,
-    comments: [],
+    comments: 0,
     ...data,
   });
 }
