@@ -7,7 +7,6 @@ const mainMenus = [
   { label: '대회', to: '/competition' },
   { label: '장비', to: '/gear' },
   { label: '가이드', to: '/guide' },
-  { label: '기록', to: '/record' },
   { label: '마이페이지', to: '/mypage' },
 ];
 
@@ -22,59 +21,31 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header style={{
-      width: '100%',
-      background: '#fff',
-      borderBottom: '1px solid #e0e0e0',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '0 2rem',
-      height: 64,
-      position: 'sticky',
-      top: 0,
-      zIndex: 100,
-    }}>
+    <header className="w-full bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-400 rounded-t-xl px-8 py-4 flex items-center justify-between">
       {/* 좌측 로고 */}
-      <RouterLink to="/" className="logo text-2xl font-extrabold text-blue-600 font-sans tracking-wide flex items-center" style={{ textDecoration: 'none' }} aria-label="SWIMMERGY 홈">
-        SWIM<span className="wave-m">M</span><span className="wave-e">E</span>RGY
+      <RouterLink to="/" className="text-2xl font-extrabold text-white font-sans tracking-wide flex items-center" aria-label="SWIMMERGY 홈">
+        SWIMMERGY
       </RouterLink>
       {/* 중앙 메뉴 */}
-      <nav style={{ display: 'flex', gap: 24 }}>
+      <nav className="flex space-x-8">
         {mainMenus.map((menu) => (
           <RouterLink
             key={menu.to}
             to={menu.to}
-            style={{
-              textDecoration: 'none',
-              color: '#222',
-              fontWeight: 500,
-              fontSize: 16,
-              padding: '8px 0',
-              transition: 'color 0.2s',
-            }}
+            className="text-white font-medium text-base px-2 py-1 hover:text-cyan-100 transition-colors"
           >
             {menu.label}
           </RouterLink>
         ))}
       </nav>
       {/* 우측 로그인/회원가입 또는 사용자 정보 */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex items-center gap-3">
         {isAuthenticated ? (
           <>
-            <span style={{ color: '#1976d2', fontWeight: 500, marginRight: 8 }}>{email}</span>
+            <span className="text-white font-medium mr-2">{email}</span>
             <button
               onClick={handleLogout}
-              style={{
-                background: 'none',
-                border: '1px solid #1976d2',
-                color: '#1976d2',
-                borderRadius: 4,
-                padding: '6px 16px',
-                cursor: 'pointer',
-                fontWeight: 500,
-                fontSize: 14,
-              }}
+              className="bg-white text-blue-600 border border-blue-600 rounded-lg px-4 py-2 font-semibold hover:bg-blue-50 transition"
             >
               로그아웃
             </button>
@@ -83,32 +54,13 @@ const Header: React.FC = () => {
           <>
             <RouterLink
               to="/login"
-              style={{
-                background: '#1976d2',
-                color: '#fff',
-                border: 'none',
-                borderRadius: 4,
-                padding: '6px 16px',
-                fontWeight: 500,
-                fontSize: 14,
-                textDecoration: 'none',
-                marginRight: 8,
-              }}
+              className="bg-white text-blue-600 border border-blue-600 rounded-lg px-4 py-2 font-semibold hover:bg-blue-50 transition mr-2"
             >
               로그인
             </RouterLink>
             <RouterLink
               to="/register"
-              style={{
-                background: 'none',
-                color: '#1976d2',
-                border: '1px solid #1976d2',
-                borderRadius: 4,
-                padding: '6px 16px',
-                fontWeight: 500,
-                fontSize: 14,
-                textDecoration: 'none',
-              }}
+              className="bg-transparent text-white border border-white rounded-lg px-4 py-2 font-semibold hover:bg-white hover:text-blue-600 transition"
             >
               회원가입
             </RouterLink>

@@ -3,8 +3,56 @@ import CommunityPostCard from '../components/CommunityPostCard';
 import CommunityPostModal from '../components/CommunityPostModal';
 import ReportModal from '../components/ReportModal';
 import WritePostModal from '../components/WritePostModal';
-import Snackbar from '../components/Snackbar';
+import Snackbar from '../components/PostCard';
+import PostForm from '../components/PostForm';
 import { getPosts, createPost, createComment, likePost, reportPost } from '../utils/api';
+
+const communityPosts = [
+  {
+    id: 1,
+    title: "오늘 수영 연습 어땠나요?",
+    author: "user1",
+    date: "2024-07-18",
+    content: "오늘 자유형 연습을 했는데 호흡 타이밍이 많이 좋아진 것 같아요! 여러분은 어떤 연습을 하셨나요?",
+    likes: 15,
+    comments: 8,
+    views: 156,
+    category: "일반"
+  },
+  {
+    id: 2,
+    title: "스타트 자세 어떻게 해요?",
+    author: "user2", 
+    date: "2024-07-17",
+    content: "수영 시작할 때 스타트 자세가 너무 어려워요. 다이빙할 때 물에 제대로 들어가는 방법을 알려주세요!",
+    likes: 12,
+    comments: 15,
+    views: 203,
+    category: "질문"
+  },
+  {
+    id: 3,
+    title: "수영장 실력을 언어적으로다",
+    author: "user3",
+    date: "2024-07-16", 
+    content: "평영 킥이 너무 어려워요. 발목을 어떻게 써야 하는지 감이 안 잡혀요. 팁 좀 주세요!",
+    likes: 8,
+    comments: 12,
+    views: 189,
+    category: "기술"
+  },
+  {
+    id: 4,
+    title: "명의 뒤차기 요령을 찾습니다",
+    author: "user4",
+    date: "2024-07-15",
+    content: "접영을 배우고 있는데 팔 동작이 너무 힘들어요. 어깨에 무리가 가지 않게 하는 방법이 있을까요?",
+    likes: 6,
+    comments: 9,
+    views: 142,
+    category: "기술"
+  }
+];
 
 const initialPosts = [
   { id: 1, title: '오늘 수영 연습 어땠나요?', author: 'user1', date: '2024-07-18', comment: 3, content: '오늘 자유형 연습에서 기록이 많이 단축됐어요! 여러분은 어떠셨나요?', comments: [
@@ -23,7 +71,6 @@ const initialPosts = [
 const PAGE_SIZE = 6;
 
 const CommunityPage: React.FC = () => {
-  const [posts, setPosts] = useState<typeof initialPosts>([]);
   const [selectedPost, setSelectedPost] = useState<typeof posts[0] | null>(null);
   const [isWriteOpen, setIsWriteOpen] = useState(false);
   const [form, setForm] = useState({ title: '', author: '', content: '' });
@@ -250,101 +297,83 @@ const CommunityPage: React.FC = () => {
     return () => { if (loader.current) observer.unobserve(loader.current); };
   }, [handleObserver]);
 
+  
+
+
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [showPostForm, setShowPostForm] = useState(false);
+  const [posts, setPosts] = useState(communityPosts);
+
+  const categories = ['전체', '일반', '질문', '기술', '정보', '후기'];
+
+  const filteredPosts = selectedCategory === '전체' 
+    ? posts 
+    : posts.filter(post => post.category === selectedCategory);
+
+  const handleAddPost = (newPost: any) => {
+    const post = {
+      id: posts.length + 1,
+      ...newPost,
+      author: 'user' + (posts.length + 1),
+      date: new Date().toISOString().split('T')[0],
+      likes: 0,
+      comments: 0,
+      views: 0
+    };
+    setPosts([post, ...posts]);
+    setShowPostForm(false);
+  };
+
   return (
-    <div className="flex-1 w-full h-full bg-gray-50 py-10">
-      <div className="w-full px-2 md:px-8">
-        {/* SWIMMERGY 커뮤니티 상단 배너 */}
-        <div className="w-full bg-gradient-to-r from-cyan-700 to-blue-900 text-white py-8 px-2 md:px-4 rounded-xl mb-8 text-center shadow">
-          <h2 className="text-2xl md:text-3xl font-extrabold mb-2 tracking-tight">SWIMMERGY 커뮤니티</h2>
-          <p className="text-base md:text-lg font-medium opacity-90">수영에 대한 모든 이야기, 자유롭게 나누세요!</p>
-        </div>
-        {/* 검색/정렬 입력창 */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-6">
-          <input
-            type="text"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-            placeholder="제목, 본문, 작성자 검색"
-            className="w-full md:w-80 border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
-          />
-          <div className="flex gap-2 items-center">
-            <span className="text-sm text-gray-500">정렬:</span>
-            <select
-              value={sort}
-              onChange={e => setSort(e.target.value as 'latest' | 'likes' | 'comments')}
-              className="border rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            >
-              <option value="latest">최신순</option>
-              <option value="likes">좋아요순</option>
-              <option value="comments">댓글순</option>
-            </select>
+    <div className="min-h-screen bg-gray-50">
+      
+      <main className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-800 mb-4">커뮤니티</h1>
+            <p className="text-xl text-gray-600">수영에 대한 모든 이야기를 나눠보세요</p>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div className="flex flex-wrap gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setSelectedCategory(category)}
+                    className={`${selectedCategory === category ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-blue-50 hover:text-blue-600'} px-4 py-2 rounded-full transition-colors whitespace-nowrap cursor-pointer`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+              
+              <button
+                onClick={() => setShowPostForm(true)}
+                className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-cyan-600 transition-all whitespace-nowrap cursor-pointer flex items-center gap-2"
+              >
+                <div className="w-4 h-4 flex items-center justify-center">
+                  <i className="ri-add-line"></i>
+                </div>
+                글쓰기
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4">
+              {filteredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
           </div>
         </div>
-        {/* 게시글 리스트 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          {visiblePosts.length === 0 && (
-            <div className="col-span-2 text-center text-gray-400 py-12 text-base md:text-lg">아직 게시글이 없습니다.<br/>첫 글을 작성해보세요!</div>
-          )}
-          {visiblePosts.map((post, idx) => (
-            <CommunityPostCard
-              key={post.id}
-              post={post}
-              onLike={handleLike}
-              onDetail={setSelectedPost}
-              onReport={id => setReportOpen({ postId: id, fromModal: false })}
-            />
-          ))}
-        </div>
-        {/* 무한 스크롤 로더 */}
-        {visiblePosts.length < sortedPosts.length && (
-          <div ref={loader} className="flex justify-center py-8 text-gray-400">
-            {loading ? (
-              <svg className="animate-spin h-6 w-6 text-blue-400" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>
-            ) : '더 불러오는 중...'}
-          </div>
-        )}
-        <div className="flex justify-end mt-8">
-          <button className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded shadow" onClick={handleWrite}>글쓰기</button>
-        </div>
-      </div>
-      {/* 상세 모달 */}
-      <CommunityPostModal
-        post={selectedPost}
-        open={!!selectedPost}
-        onClose={() => setSelectedPost(null)}
-        onLike={handleLike}
-        onReport={id => setReportOpen({ postId: id, fromModal: true })}
-        onCommentSubmit={handleCommentSubmit}
-        commentForm={commentForm}
-        commentError={commentError}
-        loading={loading}
-        commentAuthorRef={commentAuthorRef}
-        handleCommentChange={handleCommentChange}
-      />
-      {/* 신고 모달 */}
-      <ReportModal
-        open={reportOpen.postId !== null}
-        onClose={() => { setReportOpen({ postId: null, fromModal: false }); setReportReason(''); setReportError(''); }}
-        onSubmit={handleReport}
-        loading={loading}
-        error={reportError}
-        value={reportReason}
-        onChange={e => { setReportReason(e.target.value); setReportError(''); }}
-        textareaRef={reportTextareaRef}
-      />
-      {/* 글쓰기 모달 */}
-      <WritePostModal
-        open={isWriteOpen}
-        onClose={() => { setIsWriteOpen(false); setFormError(''); }}
-        onSubmit={handleSubmit}
-        loading={loading}
-        error={formError}
-        value={form}
-        onChange={handleFormChange}
-        titleRef={writeTitleRef}
-      />
-      {/* 스낵바 */}
-      <Snackbar open={snackbar.open} message={snackbar.message} />
+      </main>
+
+      {showPostForm && (
+        <PostForm 
+          onClose={() => setShowPostForm(false)}
+          onSubmit={handleAddPost}
+        />
+      )}
     </div>
   );
 };
