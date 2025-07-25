@@ -25,6 +25,7 @@ class CompetitionController(
         ResponseEntity.ok(competitionService.create(req))
 
     @PostMapping("/{id}/result")
-    fun updateResult(@PathVariable id: Long, @RequestBody req: CompetitionResultRequest): ResponseEntity<CompetitionResponse> =
+    fun updateResult(@PathVariable id: Long,
+                     @RequestBody req: CompetitionResultRequest): ResponseEntity<CompetitionResponse> =
         ResponseEntity.ok(competitionService.updateResult(id, req))
 } 

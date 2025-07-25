@@ -1,9 +1,9 @@
 package com.swimming.community.service
 
-import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.JwtException
+import io.jsonwebtoken.Jwts
+import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import java.util.*
@@ -41,4 +41,9 @@ object JwtUtil {
     } catch (e: Exception) {
         null
     }
-} 
+
+    fun extractEmail(token: String): String? {
+        if (!token.startsWith("Bearer ")) return null
+        return getEmail(token.substring(7))
+    }
+}

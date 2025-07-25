@@ -27,4 +27,4 @@ data class Post(
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val likes: List<PostLike> = emptyList()
-) 
+)

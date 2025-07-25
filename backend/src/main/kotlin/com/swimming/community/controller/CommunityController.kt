@@ -6,9 +6,11 @@ import com.swimming.community.dto.PostCreateRequest
 import com.swimming.community.dto.PostResponse
 import com.swimming.community.service.CommunityService
 import com.swimming.community.service.JwtUtil
+import com.swimming.community.service.JwtUtil.extractEmail
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 
 @RestController
 @RequestMapping("/api/posts")
@@ -24,27 +26,25 @@ class CommunityController(
         ResponseEntity.ok(communityService.getById(id))
 
     @PostMapping
-    fun create(@RequestBody req: PostCreateRequest, request: HttpServletRequest): ResponseEntity<PostResponse> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun create(@RequestHeader("Authorization") token: String,
+               @RequestBody req: PostCreateRequest): ResponseEntity<PostResponse> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         return ResponseEntity.ok(communityService.create(email, req))
     }
 
     @PostMapping("/{id}/comments")
-    fun addComment(@PathVariable id: Long, @RequestBody req: CommentCreateRequest, request: HttpServletRequest): ResponseEntity<CommentResponse> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun addComment(@RequestHeader("Authorization") token: String,
+                   @PathVariable id: Long,
+                   @RequestBody req: CommentCreateRequest): ResponseEntity<CommentResponse> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         return ResponseEntity.ok(communityService.addComment(id, email, req))
     }
 
     @PostMapping("/{id}/like")
-    fun like(@PathVariable id: Long, request: HttpServletRequest): ResponseEntity<Void> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun like(@RequestHeader("Authorization") token: String,
+             @PathVariable id: Long): ResponseEntity<Void> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         communityService.like(id, email)
         return ResponseEntity.noContent().build()
     }
-
-    private fun extractEmail(request: HttpServletRequest): String? {
-        val authHeader = request.getHeader("Authorization") ?: return null
-        if (!authHeader.startsWith("Bearer ")) return null
-        return JwtUtil.getEmail(authHeader.substring(7))
-    }
-} 
+}

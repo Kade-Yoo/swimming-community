@@ -9,6 +9,7 @@ import com.swimming.community.service.JwtUtil
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,12 +30,10 @@ class UserController(
     }
 
     @GetMapping("/mypage")
-    fun myPage(request: HttpServletRequest): ResponseEntity<UserResponse> {
-        val authHeader = request.getHeader("Authorization") ?: return ResponseEntity.status(401).build()
-        if (!authHeader.startsWith("Bearer ")) return ResponseEntity.status(401).build()
-        val token = authHeader.substring(7)
-        val email = JwtUtil.getEmail(token) ?: return ResponseEntity.status(401).build()
-        val user = userRepository.findByEmail(email) ?: return ResponseEntity.status(404).build()
+    fun myPage(@RequestHeader("Authorization") token: String): ResponseEntity<UserResponse> {
+        if (!token.startsWith("Bearer ")) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        val email = JwtUtil.getEmail(token.substring(7)) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+        val user = userRepository.findByEmail(email) ?: return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         return ResponseEntity.ok(UserResponse(user))
     }
 } 

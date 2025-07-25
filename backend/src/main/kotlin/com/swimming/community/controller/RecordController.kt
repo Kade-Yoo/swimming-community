@@ -3,10 +3,18 @@ package com.swimming.community.controller
 import com.swimming.community.dto.RecordCreateRequest
 import com.swimming.community.dto.RecordResponse
 import com.swimming.community.service.JwtUtil
+import com.swimming.community.service.JwtUtil.extractEmail
 import com.swimming.community.service.RecordService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
-import jakarta.servlet.http.HttpServletRequest
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestHeader
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/records")
@@ -14,27 +22,23 @@ class RecordController(
     private val recordService: RecordService
 ) {
     @GetMapping("/my")
-    fun getMyRecords(request: HttpServletRequest): ResponseEntity<List<RecordResponse>> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun getMyRecords(@RequestHeader("Authorization") token: String): ResponseEntity<List<RecordResponse>> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         return ResponseEntity.ok(recordService.getMyRecords(email))
     }
 
     @PostMapping
-    fun create(@RequestBody req: RecordCreateRequest, request: HttpServletRequest): ResponseEntity<RecordResponse> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun create(@RequestHeader("Authorization") token: String,
+               @RequestBody req: RecordCreateRequest): ResponseEntity<RecordResponse> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         return ResponseEntity.ok(recordService.create(email, req))
     }
 
     @DeleteMapping("/{id}")
-    fun delete(@PathVariable id: Long, request: HttpServletRequest): ResponseEntity<Void> {
-        val email = extractEmail(request) ?: return ResponseEntity.status(401).build()
+    fun delete(@RequestHeader("Authorization") token: String,
+               @PathVariable id: Long): ResponseEntity<Void> {
+        val email = extractEmail(token) ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
         recordService.delete(email, id)
         return ResponseEntity.noContent().build()
     }
-
-    private fun extractEmail(request: HttpServletRequest): String? {
-        val authHeader = request.getHeader("Authorization") ?: return null
-        if (!authHeader.startsWith("Bearer ")) return null
-        return JwtUtil.getEmail(authHeader.substring(7))
-    }
-} 
+}
