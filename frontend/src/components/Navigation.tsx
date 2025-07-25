@@ -20,12 +20,12 @@ const Navigation: React.FC = () => {
       </div>
       {/* 메뉴 */}
       <div className="hidden md:flex gap-7 text-base font-medium text-gray-800">
-        <Link to="/community" className="hover:text-blue-600 transition">커뮤니티</Link>
-        <Link to="/competition" className="hover:text-blue-600 transition">대회</Link>
-        <Link to="/gear" className="hover:text-blue-600 transition">장비</Link>
-        <Link to="/guide" className="hover:text-blue-600 transition">가이드</Link>
-        <Link to="/record" className="hover:text-blue-600 transition">기록</Link>
-        <Link to="/mypage" className="hover:text-blue-600 transition">마이페이지</Link>
+        <Link to="/community" className="font-extrabold hover:text-blue-600 transition">커뮤니티</Link>
+        <Link to="/competition" className="font-extrabold hover:text-blue-600 transition">대회</Link>
+        <Link to="/gear" className="font-extrabold hover:text-blue-600 transition">장비</Link>
+        <Link to="/guide" className="font-extrabold hover:text-blue-600 transition">가이드</Link>
+        <Link to="/record" className="font-extrabold hover:text-blue-600 transition">기록</Link>
+        <Link to="/mypage" className="font-extrabold hover:text-blue-600 transition">마이페이지</Link>
       </div>
       {/* 버튼 */}
       <div className="flex gap-2 items-center">

@@ -24,8 +24,12 @@ const RegisterPage: React.FC = () => {
         return;
       }
       const user = await res.json();
-      login(user.token); // JWT 토큰 저장
-      navigate('/'); // 메인 페이지로 이동
+
+      // JWT 토큰 저장
+      login(user.token);
+
+      // 메인 페이지로 이동
+      navigate('/');
     } catch (e) {
       setError('네트워크 오류');
     }
