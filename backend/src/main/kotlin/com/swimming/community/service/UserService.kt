@@ -28,8 +28,7 @@ class UserService(
     }
 
     fun login(request: UserLoginRequest): UserResponse {
-        val user = userRepository.findByEmail(request.email)
-            ?: throw InvalidCredentialsException()
+        val user = userRepository.findByEmail(request.email) ?: throw InvalidCredentialsException()
         if (user.password != request.password) {
             throw InvalidCredentialsException()
         }

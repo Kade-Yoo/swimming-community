@@ -3,7 +3,7 @@ package com.swimming.community.domain
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "gears")
+@Table(name = "gear")
 data class Gear(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

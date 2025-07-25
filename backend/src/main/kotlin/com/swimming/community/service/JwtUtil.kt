@@ -28,7 +28,6 @@ object JwtUtil {
             .setSigningKey(Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY)))
             .build()
             .parseClaimsJws(token)
-
         true
     } catch (e: JwtException) {
         false

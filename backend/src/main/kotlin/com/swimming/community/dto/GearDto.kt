@@ -4,8 +4,6 @@ import com.swimming.community.domain.Gear
 import com.swimming.community.domain.GearReview
 import java.time.LocalDateTime
 
-// 장비 상세/목록 응답
-
 data class GearResponse(
     val id: Long,
     val name: String,

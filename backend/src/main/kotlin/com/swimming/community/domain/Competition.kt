@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import java.time.LocalDate
 
 @Entity
-@Table(name = "competitions")
+@Table(name = "competition")
 data class Competition(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +24,4 @@ data class Competition(
 
     @Column(nullable = true)
     var result: String? = null
-) 
+)

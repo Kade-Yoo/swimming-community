@@ -51,9 +51,7 @@ class CommunityService(
 
     @Transactional
     fun like(postId: Long, userEmail: String) {
-        val post = postRepository.findById(postId)
-            .orElseThrow { NoSuchElementException("게시글을 찾을 수 없습니다.") }
-        // 중복 좋아요 방지
+        val post = postRepository.findById(postId).orElseThrow { NoSuchElementException("게시글을 찾을 수 없습니다.") }
         if (post.likes.any { it.userEmail == userEmail }) return
         postLikeRepository.save(PostLike(post = post, userEmail = userEmail))
     }

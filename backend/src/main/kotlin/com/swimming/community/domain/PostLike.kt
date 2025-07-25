@@ -3,7 +3,7 @@ package com.swimming.community.domain
 import jakarta.persistence.*
 
 @Entity
-@Table(name = "post_likes")
+@Table(name = "post_like")
 data class PostLike(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

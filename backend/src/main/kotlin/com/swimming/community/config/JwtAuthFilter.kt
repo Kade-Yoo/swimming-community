@@ -23,7 +23,6 @@ class JwtAuthFilter : OncePerRequestFilter() {
                 response.writer.write("{\"error\":\"유효하지 않은 토큰입니다.\"}")
                 return
             }
-            // 필요시 request attribute에 email 등 저장 가능
         }
         filterChain.doFilter(request, response)
     }

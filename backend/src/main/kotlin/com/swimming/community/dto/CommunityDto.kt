@@ -4,8 +4,6 @@ import com.swimming.community.domain.Comment
 import com.swimming.community.domain.Post
 import java.time.LocalDateTime
 
-// 게시글 응답
-
 data class PostResponse(
     val id: Long,
     val userEmail: String,
