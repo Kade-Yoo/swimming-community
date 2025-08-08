@@ -3,7 +3,7 @@
 ---
 
 ## 로고 아이디어
-- “SWIMMERGY”의 **M**과 **E**를 물결(파도)처럼 변형
+- "SWIMMERGY"의 **M**과 **E**를 물결(파도)처럼 변형
 - 전체적으로 역동적이고 에너지 넘치는 느낌의 산세리프 폰트 사용
 
 ---
@@ -45,24 +45,81 @@
 - **회원가입/로그인**: 이메일, 소셜 로그인(카카오, 구글 등) 지원
 - **마이페이지**: 내 정보, 내 기록, 내 게시글/댓글 관리
 
+## 🚀 최근 주요 개선사항
+
+### ✅ 실시간 채팅 시스템
+- **ChatSystem 컴포넌트**: 실시간 메시지 전송 및 수신
+- **타이핑 표시**: 다른 사용자의 입력 상태 실시간 표시
+- **자동 스크롤**: 새 메시지 자동 스크롤 기능
+- **메시지 타입**: 일반 메시지, 시스템 메시지 구분
+- **헤더 통합**: 채팅 버튼과 온라인 상태 표시
+
+### ✅ 다크모드 및 테마 시스템
+- **ThemeContext**: 라이트/다크/자동 모드 지원
+- **ThemeToggle 컴포넌트**: 직관적인 테마 전환 버튼
+- **Tailwind CSS 다크모드**: `darkMode: 'class'` 설정으로 완벽한 다크모드 지원
+- **시스템 설정 연동**: OS 테마 설정 자동 감지
+- **로컬 스토리지**: 사용자 테마 설정 저장
+
+### ✅ 고급 검색 및 필터링 시스템
+- **AdvancedSearch 컴포넌트**: 
+  - 키워드 검색 (제목, 내용, 작성자)
+  - 카테고리 필터링
+  - 날짜 범위 필터 (오늘, 이번 주, 이번 달, 올해)
+  - 작성자 필터링
+  - 태그 기반 필터링
+  - 정렬 옵션 (관련도, 날짜, 좋아요, 댓글, 조회수)
+- **관련도 기반 정렬**: 키워드 매칭 점수 계산 알고리즘
+- **활성 필터 표시**: 현재 적용된 필터 시각적 표시
+- **필터 초기화**: 원클릭으로 모든 필터 해제
+
+### ✅ 알림 시스템
+- **NotificationSystem 컴포넌트**: 실시간 알림 관리
+- **알림 타입**: 댓글, 좋아요, 멘션, 시스템 알림
+- **읽음 상태 관리**: 읽지 않은 알림 개수 표시
+- **일괄 읽음 처리**: 모든 알림을 한 번에 읽음 처리
+- **알림 삭제**: 개별 알림 삭제 기능
+
+### ✅ 무한 스크롤 및 성능 최적화
+- **IntersectionObserver**: 효율적인 무한 스크롤 구현
+- **페이지네이션**: 10개씩 게시글 로딩
+- **로딩 상태**: 스크롤 시 로딩 인디케이터
+- **메모리 최적화**: 불필요한 리렌더링 방지
+
+### ✅ API 연동 준비
+- **api.ts**: 실제 백엔드 API 연동을 위한 유틸리티
+- **환경 변수**: `VITE_API_URL` 설정으로 환경별 API 엔드포인트 관리
+- **에러 처리**: 통합된 에러 핸들링 시스템
+- **인증 헤더**: JWT 토큰 자동 첨부
+
+### ✅ 향상된 사용자 경험
+- **반응형 디자인**: 모바일과 데스크톱 완벽 지원
+- **접근성**: 키보드 네비게이션, 스크린 리더 지원
+- **애니메이션**: 부드러운 전환 효과와 로딩 애니메이션
+- **에러 처리**: 사용자 친화적인 에러 메시지
+- **성능 최적화**: 코드 스플리팅, 지연 로딩
+
 ## 기술 스택
 
 ### 프론트엔드
-- React (TypeScript)
-- 상태관리: Redux Toolkit 또는 React Query
-- 스타일: Styled-components 또는 MUI
-- 반응형 디자인 (모바일 앱 확장 고려)
+- **React 18** (TypeScript)
+- **상태관리**: React Context API + React Query
+- **스타일**: Tailwind CSS + MUI
+- **라우팅**: React Router DOM
+- **아이콘**: Remix Icons
+- **반응형 디자인**: 모바일 앱 확장 고려
 
 ### 백엔드
-- Spring Boot (Kotlin)
-- DB: PostgreSQL
-- 인증: JWT 기반 인증/인가
-- RESTful API 설계
-- 파일 업로드 (이미지 등)
+- **Spring Boot** (Kotlin)
+- **DB**: PostgreSQL
+- **인증**: JWT 기반 인증/인가
+- **RESTful API** 설계
+- **파일 업로드** (이미지 등)
 
 ### 기타
-- 배포: AWS, Docker
-- CI/CD: Github Actions
+- **배포**: AWS, Docker
+- **CI/CD**: Github Actions
+- **개발 도구**: Vite, ESLint, Prettier
 
 ## 페이지 구성
 
@@ -78,6 +135,9 @@
 - 모바일 앱(React Native 등) 개발
 - 대회 참가 신청/관리 기능
 - 오프라인 모임/클럽 관리
+- 실시간 알림 (WebSocket)
+- 파일 업로드 및 이미지 관리
+- 소셜 로그인 (카카오, 구글, 네이버)
 
 ---
 
@@ -86,103 +146,94 @@
 ```
 frontend/
   └─ src/
-      ├─ pages/         # 주요 페이지 컴포넌트 (메인, 대회, 기록, 장비, 가이드, 커뮤니티, 마이페이지)
-      ├─ components/    # 공통 UI 컴포넌트 (Header, Footer, Navigation 등)
-      ├─ routes/        # 라우팅 관련 파일 (Router.tsx)
+      ├─ pages/         # 주요 페이지 컴포넌트
+      ├─ components/    # 공통 UI 컴포넌트
+      ├─ contexts/      # React Context (Auth, Theme)
       ├─ hooks/         # 커스텀 훅
-      ├─ utils/         # 유틸리티 함수
+      ├─ utils/         # 유틸리티 함수 (API, 유틸)
+      ├─ routes/        # 라우팅 관련 파일
       ├─ assets/        # 이미지, 폰트 등 정적 파일
-      ├─ App.tsx        # 앱 엔트리, 라우터 포함
+      ├─ App.tsx        # 앱 엔트리, 프로바이더 포함
       └─ main.tsx       # React DOM 렌더링 엔트리
 ```
 
-- **pages/**: 각 주요 화면별 컴포넌트
-- **components/**: 여러 페이지에서 재사용되는 UI 컴포넌트
-- **routes/**: 라우팅 설정 및 관리
-- **hooks/**: 커스텀 React 훅
-- **utils/**: 공통 유틸 함수
-- **assets/**: 이미지, 폰트 등 정적 리소스
-- **App.tsx**: 전체 앱 구조 및 라우터
-- **main.tsx**: 앱 렌더링 시작점
+### 주요 컴포넌트
 
-### 공통 레이아웃 구조
+- **Header.tsx**: 로고, 네비게이션, 사용자 메뉴, 알림, 채팅, 테마 토글
+- **Navigation.tsx**: 주요 메뉴 네비게이션
+- **Layout.tsx**: 공통 레이아웃 (Header, Navigation, Footer)
+- **CommunityPage.tsx**: 커뮤니티 게시판 (검색, 필터, 무한 스크롤)
+- **ChatSystem.tsx**: 실시간 채팅 시스템
+- **AdvancedSearch.tsx**: 고급 검색 및 필터링
+- **NotificationSystem.tsx**: 알림 관리 시스템
+- **ThemeToggle.tsx**: 테마 전환 버튼
 
-- **components/Header.tsx**: 사이트 상단, 로고 및 사이트명
-- **components/Navigation.tsx**: 주요 메뉴(메인, 대회, 기록, 장비, 가이드, 커뮤니티, 마이페이지) 네비게이션
-- **components/Footer.tsx**: 사이트 하단, 저작권 등
-- **components/Layout.tsx**: Header, Navigation, Footer를 포함하는 공통 레이아웃. 모든 페이지는 Layout으로 감싸서 렌더링
+### 상태 관리
 
-라우팅 구조 예시:
+- **AuthContext**: 사용자 인증 상태 관리
+- **ThemeContext**: 다크모드/라이트모드 테마 관리
+- **React Query**: 서버 상태 관리 및 캐싱
 
-```
-<BrowserRouter>
-  <Layout>
-    <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/competition" element={<CompetitionPage />} />
-      ...
-    </Routes>
-  </Layout>
-</BrowserRouter>
-```
+### API 연동
 
-### 디자인 시스템 및 상태관리 구조
+- **api.ts**: 백엔드 API 연동을 위한 유틸리티
+- **환경 변수**: `VITE_API_URL` 설정
+- **에러 처리**: 통합된 에러 핸들링
+- **인증**: JWT 토큰 자동 첨부
 
-- **디자인 시스템**: MUI(Material UI) 적용, ThemeProvider로 전체 스타일 일관성 유지
-- **상태관리**: React Query(QueryClientProvider)로 서버 데이터 관리
-- **적용 위치**: App.tsx에서 ThemeProvider, QueryClientProvider로 전체 앱 감쌈
-- **샘플**: 메인 페이지에 MUI Card, Button 등 적용
+---
 
-코드 예시:
+## 실행 방법
 
-```tsx
-<ThemeProvider theme={theme}>
-  <CssBaseline />
-  <QueryClientProvider client={queryClient}>
-    <Router />
-  </QueryClientProvider>
-</ThemeProvider>
+### 프론트엔드 실행
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-### 인증 구조
-
-- **인증 페이지**: /login, /register (Layout 외부에서 렌더링)
-- **인증 상태 관리**: src/hooks/useAuth.ts (localStorage에 토큰 저장, 로그인/로그아웃, 인증 여부 반환)
-- **향후 확장**: 백엔드 연동 시 JWT 등 실제 토큰 사용, 인증 Context/Provider로 확장 가능
-
-폴더/파일 예시:
-- src/pages/LoginPage.tsx: 로그인 폼
-- src/pages/RegisterPage.tsx: 회원가입 폼
-- src/hooks/useAuth.ts: 인증 상태 관리 훅
-
-### 인증 Context/Provider 및 보호 라우트
-
-- **src/contexts/AuthContext.tsx**: 전역 인증 상태 관리, Provider로 전체 앱 감쌈
-- **src/hooks/useAuth.ts**: Context 기반 인증 훅
-- **마이페이지 보호**: 인증되지 않은 사용자는 /login으로 리다이렉트
-
-코드 예시:
-```tsx
-<AuthProvider>
-  <Router />
-</AuthProvider>
+### 백엔드 실행
+```bash
+cd backend
+./gradlew bootRun
 ```
 
-### 로그인/로그아웃 및 사용자 정보 표시
+### 환경 변수 설정
+프론트엔드 루트에 `.env` 파일 생성:
+```
+VITE_API_URL=http://localhost:8080/api
+```
 
-- **Header.tsx**: 로그인 상태에 따라 로그인/로그아웃 버튼, 사용자 이메일(샘플) 표시
-- **로그아웃**: 로그아웃 시 localStorage 토큰 삭제 및 /로 이동
-- **로그인/회원가입**: 성공 시 임시 토큰(email) 저장 및 /mypage로 이동
+---
 
-### 샘플 API 연동 및 주요 기능 목업
+## 주요 기능 데모
 
-- **게시판(CommunityPage)**: React Query로 공개 API(jsonplaceholder)에서 게시글 목록 fetch 및 렌더링
-- **대회 정보(CompetitionPage)**: 목업 데이터로 대회 일정/장소/이름 등 리스트 렌더링
-- **구조**: 실제 API 연동 시 fetch/queryFn만 교체하면 확장 가능
+### 🔥 실시간 채팅
+- 헤더의 채팅 버튼 클릭
+- 실시간 메시지 전송 및 수신
+- 타이핑 상태 표시
+- 자동 스크롤
 
-### 마이페이지(내 정보/기록/게시글) 샘플 데이터 표시
+### 🌙 다크모드
+- 헤더의 테마 토글 버튼 클릭
+- 라이트/다크/자동 모드 전환
+- 시스템 설정 자동 감지
 
-- **내 정보**: 로그인된 사용자 이메일(토큰) 표시
-- **내 기록**: 목업 데이터(날짜, 종목, 기록 등) 테이블로 표시
-- **내 게시글**: 샘플 API(jsonplaceholder)에서 userId=1 게시글만 필터링하여 표시
-- **구조**: 실제 연동 시 fetch/queryFn만 교체하면 확장 가능
+### 🔍 고급 검색
+- 커뮤니티 페이지의 "고급 검색" 버튼 클릭
+- 키워드, 카테고리, 날짜, 작성자, 태그 필터링
+- 관련도 기반 정렬
+
+### 🔔 알림 시스템
+- 헤더의 알림 버튼 클릭
+- 실시간 알림 확인
+- 읽음 처리 및 삭제
+
+### 📱 반응형 디자인
+- 모바일과 데스크톱에서 최적화된 레이아웃
+- 터치 친화적인 인터페이스
+- 접근성 고려
+
+---
+
+**SWIMMERGY** - 수영 커뮤니티의 새로운 시작! 🏊‍♂️✨

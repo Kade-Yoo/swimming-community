@@ -28,7 +28,7 @@ export default function PostForm({ onClose, onSubmit }: PostFormProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-blue-950/40 dark:bg-blue-950/50 backdrop-blur-md flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-6">
           <div className="flex items-center justify-between">

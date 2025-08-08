@@ -57,7 +57,7 @@ export default function GuideCard({ guide }: GuideCardProps) {
           </span>
         </div>
         <div className="absolute top-4 right-4">
-          <div className="bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
+          <div className="bg-slate-800/60 text-white px-3 py-1 rounded-full text-sm flex items-center gap-1">
             <div className="w-4 h-4 flex items-center justify-center">
               <i className="ri-time-line text-xs"></i>
             </div>

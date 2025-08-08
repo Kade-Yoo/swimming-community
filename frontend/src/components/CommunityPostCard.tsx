@@ -16,6 +16,8 @@ interface Post {
   likes: number;
   content: string;
   comments: Comment[];
+  category: string;
+  views: number;
 }
 
 interface CommunityPostCardProps {

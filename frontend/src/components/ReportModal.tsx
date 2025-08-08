@@ -24,7 +24,7 @@ const ReportModal: React.FC<ReportModalProps> = ({
 }) => {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/40 dark:bg-blue-950/50 backdrop-blur-md">
       <form className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md relative animate-fadeIn" onSubmit={onSubmit}>
         <h3 className="text-xl font-bold text-red-600 mb-4">신고하기</h3>
         <div className="mb-4">

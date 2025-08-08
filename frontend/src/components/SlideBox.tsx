@@ -58,7 +58,7 @@ export default function SlideBox() {
             className="w-full h-full bg-cover bg-center relative"
             style={{ backgroundImage: `url(${slide.image})` }}
           >
-            <div className="absolute inset-0 bg-black/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-blue-950/60 via-blue-950/20 to-transparent"></div>
             <div className="absolute bottom-8 left-8 text-white max-w-md">
               <h3 className="text-2xl font-bold mb-2">{slide.title}</h3>
               <p className="text-lg mb-4">{slide.description}</p>

@@ -4,6 +4,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider as CustomThemeProvider } from './contexts/ThemeContext';
 
 // MUI 테마 설정 (기본)
 const theme = createTheme();
@@ -12,14 +13,16 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <Router />
-        </AuthProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <CustomThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <Router />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </CustomThemeProvider>
   );
 }
 
