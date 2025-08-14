@@ -1,0 +1,15 @@
+build
+.gradle
+gradle
+gradlew
+gradlew.bat
+.git
+.gitignore
+README.md
+*.log
+.idea
+.vscode
+.DS_Store
+*.swp
+*.swo
+*~

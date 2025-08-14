@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Development)
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: swimming_postgres_dev
+    environment:
+      POSTGRES_DB: swimming_community_dev
+      POSTGRES_USER: swimming_user
+      POSTGRES_PASSWORD: swimming_password
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - swimming_dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U swimming_user -d swimming_community_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (Development)
+  redis-dev:
+    image: redis:7-alpine
+    container_name: swimming_redis_dev
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - swimming_dev_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+
+networks:
+  swimming_dev_network:
+    driver: bridge

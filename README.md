@@ -99,6 +99,15 @@
 - **에러 처리**: 사용자 친화적인 에러 메시지
 - **성능 최적화**: 코드 스플리팅, 지연 로딩
 
+### ✅ Docker 배포 시스템
+- **멀티스테이지 빌드**: 최적화된 Docker 이미지 생성
+- **Docker Compose**: 프론트엔드, 백엔드, 데이터베이스 통합 배포
+- **자동화된 배포**: `deploy.sh` 스크립트로 원클릭 배포
+- **헬스 체크**: 모든 서비스의 상태 자동 모니터링
+- **개발/프로덕션 환경**: 환경별 Docker Compose 설정
+- **데이터베이스 초기화**: PostgreSQL 자동 설정 및 샘플 데이터
+- **Nginx 설정**: React SPA를 위한 최적화된 웹 서버 설정
+
 ## 기술 스택
 
 ### 프론트엔드
@@ -185,24 +194,109 @@ frontend/
 
 ## 실행 방법
 
-### 프론트엔드 실행
+### 🐳 Docker 배포 (권장)
+
+#### 전체 배포
+```bash
+# 환경 변수 설정
+cp env.example .env
+
+# 배포 실행
+chmod +x deploy.sh
+./deploy.sh deploy
+```
+
+#### 개별 서비스 관리
+```bash
+# 서비스 시작
+./deploy.sh start
+
+# 서비스 중지
+./deploy.sh stop
+
+# 로그 확인
+./deploy.sh logs
+
+# 상태 확인
+./deploy.sh status
+```
+
+#### 개발 환경
+```bash
+# 개발용 데이터베이스만 실행
+docker-compose -f docker-compose.dev.yml up -d
+
+# 프론트엔드 개발 서버
+cd frontend && npm run dev
+
+# 백엔드 개발 서버
+cd backend && ./gradlew bootRun
+```
+
+### 🔧 로컬 개발
+
+#### 프론트엔드 실행
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 
-### 백엔드 실행
+#### 백엔드 실행
 ```bash
 cd backend
 ./gradlew bootRun
 ```
 
-### 환경 변수 설정
+#### 환경 변수 설정
 프론트엔드 루트에 `.env` 파일 생성:
 ```
 VITE_API_URL=http://localhost:8080/api
 ```
+
+### 🌐 서비스 접속
+
+배포 완료 후 다음 URL로 접속:
+- **프론트엔드**: http://localhost
+- **백엔드 API**: http://localhost:8080
+- **PostgreSQL**: localhost:5432
+- **Redis**: localhost:6379
+
+## 🐙 GitHub 배포
+
+### 로컬용 프로젝트 GitHub 배포
+이 프로젝트는 로컬 개발용으로 설계되었으며, GitHub에 안전하게 배포할 수 있습니다.
+
+#### GitHub에 올리기
+```bash
+# 1. GitHub 저장소 생성 후
+git init
+git add .
+git commit -m "Initial commit: Swimming Community with Docker"
+git branch -M main
+git remote add origin https://github.com/your-username/swimming-community.git
+git push -u origin main
+```
+
+#### 다른 기기에서 클론
+```bash
+git clone https://github.com/your-username/swimming-community.git
+cd swimming-community
+cp env.example .env
+./deploy.sh deploy
+```
+
+### 🔒 보안 고려사항
+- ✅ `.env` 파일은 `.gitignore`에 포함되어 커밋되지 않음
+- ✅ 민감한 정보는 환경 변수로 관리
+- ✅ 샘플 데이터만 포함되어 안전함
+- ✅ 로컬 네트워크에서만 실행
+
+### 📚 포트폴리오 활용
+- 🎯 **기술 스택**: React, Spring Boot, Docker, PostgreSQL
+- 🚀 **배포 자동화**: Docker Compose, GitHub Actions
+- 🔧 **개발 도구**: TypeScript, Kotlin, Tailwind CSS
+- 📱 **반응형 디자인**: 모바일/데스크톱 완벽 지원
 
 ---
 
